@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 public class Showroom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
     @Column(name = "name")
     private String name;
@@ -49,5 +49,13 @@ public class Showroom {
 
     public void setContactNumber(long contactNumber) {
         this.contactNumber = contactNumber;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

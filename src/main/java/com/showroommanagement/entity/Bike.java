@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Bike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
     @Column(name = "name")
     private String name;
@@ -27,6 +27,14 @@ public class Bike {
     @ManyToOne()
     @JoinColumn(name = "salesman_id")
     private Salesman salesman;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

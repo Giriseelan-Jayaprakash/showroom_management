@@ -1,7 +1,11 @@
 package com.showroommanagement.controller;
 
+import com.showroommanagement.dto.ResponseDTO;
 import com.showroommanagement.entity.Showroom;
 import com.showroommanagement.service.ShowroomService;
+import com.showroommanagement.util.Constant;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +20,13 @@ public class ShowroomController {
     }
 
     @PostMapping("/create")
-    public Showroom createShowroom(@RequestBody final Showroom showroom) {
-        return this.showroomService.createShowroom(showroom);
+    public ResponseDTO createShowroom(@RequestBody final Showroom showroom) {
+        ResponseDTO responseDTO=new ResponseDTO();
+        responseDTO.setMessage(Constant.CREATE);
+        responseDTO.setStatusCode(HttpStatus.CREATED.value());
+        responseDTO.setData(this.showroomService.createShowroom(showroom));
+        return responseDTO;
+//        return this.showroomService.createShowroom(showroom);
     }
 
     @GetMapping("/retrieve-id/{id}")
@@ -30,7 +39,7 @@ public class ShowroomController {
         return this.showroomService.retrieveAll();
     }
 
-    @PostMapping("/update-id/{id}")
+    @PutMapping("/update-id/{id}")
     public Showroom updateById(@PathVariable("id") final Integer id, @RequestBody final Showroom showroom) {
         return this.showroomService.updateById(showroom, id);
     }

@@ -37,7 +37,7 @@ public class ShowroomService {
 
     public Showroom updateById(final Showroom showroom, final Integer id) {
         final Optional<Showroom> showroomOptional = this.showroomRepository.findById(id);
-        if (showroomOptional.isPresent()) {
+        if (showroomOptional.isEmpty()) {
             throw new IllegalArgumentException("Showroom Not Found");
         }
         final Showroom showroomObject = showroomOptional.get();
