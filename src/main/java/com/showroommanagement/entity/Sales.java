@@ -9,12 +9,12 @@ import java.util.Date;
 public class Sales {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
     @Column(name = "sales_date")
     private Date salesDate;
     @Column(name = "sales_price")
-    private Date salesPrice;
+    private double salesPrice;
 
     @ManyToOne()
     @JoinColumn(name = "showroom_id")
@@ -32,6 +32,14 @@ public class Sales {
     @JoinColumn(name = "bike_id")
     private Bike bike;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Date getSalesDate() {
         return salesDate;
     }
@@ -40,11 +48,11 @@ public class Sales {
         this.salesDate = salesDate;
     }
 
-    public Date getSalesPrice() {
+    public double getSalesPrice() {
         return salesPrice;
     }
 
-    public void setSalesPrice(Date salesPrice) {
+    public void setSalesPrice(double salesPrice) {
         this.salesPrice = salesPrice;
     }
 
