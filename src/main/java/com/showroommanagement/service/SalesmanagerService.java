@@ -21,7 +21,7 @@ public class SalesmanagerService {
 
     public Salesmanager retrieveById(final Integer id) {
         if (id == null) {
-            throw new IllegalArgumentException("Salesmanager not Found");
+            throw new IllegalArgumentException("Sales Manager cannot be null");
         }
         final Optional<Salesmanager> salesmanager = this.salesmanagerRepository.findById(id);
         if (salesmanager.isPresent()) {
@@ -58,7 +58,7 @@ public class SalesmanagerService {
 
     public void deleteById(final Integer id) {
         if (id == null) {
-            throw new IllegalArgumentException("Salesmanager not Found");
+            throw new IllegalArgumentException("Sales Manager cannot be null");
         }
         final Salesmanager salesmanager = this.salesmanagerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Salesmanager not Found"));
         salesmanagerRepository.deleteById(id);

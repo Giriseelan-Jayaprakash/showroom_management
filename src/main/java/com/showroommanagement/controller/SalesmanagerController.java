@@ -1,10 +1,11 @@
 package com.showroommanagement.controller;
 
+import com.showroommanagement.dto.ResponseDTO;
 import com.showroommanagement.entity.Salesmanager;
 import com.showroommanagement.service.SalesmanagerService;
+import com.showroommanagement.util.Constant;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/salesmanager")
@@ -16,27 +17,46 @@ public class SalesmanagerController {
     }
 
     @PostMapping("/create")
-    public Salesmanager createSalesmanager(@RequestBody final Salesmanager salesmanager) {
-        return this.salesmanagerService.createSalesmanager(salesmanager);
+    public ResponseDTO createSalesmanager(@RequestBody final Salesmanager salesmanager) {
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.CREATE);
+        responseDTO.setData(this.salesmanagerService.createSalesmanager(salesmanager));
+        return responseDTO;
     }
 
     @GetMapping("/retrieve-id/{id}")
-    public Salesmanager retrieveById(@PathVariable("id") Integer id) {
-        return this.salesmanagerService.retrieveById(id);
+    public ResponseDTO retrieveById(@PathVariable("id") Integer id) {
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.RETRIEVE);
+        responseDTO.setStatusCode(HttpStatus.OK.value());
+        responseDTO.setData(this.salesmanagerService.retrieveById(id));
+        return responseDTO;
     }
 
     @GetMapping("/retrieve-all")
-    public List<Salesmanager> retrieveALl() {
-        return this.salesmanagerService.retrieveALl();
+    public ResponseDTO retrieveALl() {
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.CREATE);
+        responseDTO.setStatusCode(HttpStatus.OK.value());
+        responseDTO.setData(this.salesmanagerService.retrieveALl());
+        return responseDTO;
     }
 
     @PutMapping("/update-id/{id}")
-    public Salesmanager updateById(@PathVariable("id") Integer id, @RequestBody Salesmanager salesmanager) {
-        return this.salesmanagerService.updateById(id, salesmanager);
+    public ResponseDTO updateById(@PathVariable("id") Integer id, @RequestBody Salesmanager salesmanager) {
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.UPDATE);
+        responseDTO.setStatusCode(HttpStatus.CREATED.value());
+        responseDTO.setData(this.salesmanagerService.updateById(id, salesmanager));
+        return responseDTO;
     }
 
     @DeleteMapping("/delete-id/{id}")
-    public void deleteById(@PathVariable("id") Integer id) {
+    public ResponseDTO deleteById(@PathVariable("id") Integer id) {
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.DELETE);
+        responseDTO.setStatusCode(HttpStatus.NO_CONTENT.value());
         this.salesmanagerService.deleteById(id);
+        return responseDTO;
     }
 }

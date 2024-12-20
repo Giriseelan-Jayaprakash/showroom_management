@@ -47,12 +47,6 @@ public class SalesService {
         if (sales.getSalesPrice() != 0) {
             salesObject.setSalesPrice(sales.getSalesPrice());
         }
-        if (sales.getShowroom() != null) {
-            salesObject.setShowroom(sales.getShowroom());
-        }
-        if (sales.getSalesman() != null) {
-            salesObject.setSalesman(sales.getSalesman());
-        }
         if (sales.getCustomer() != null) {
             salesObject.setCustomer(sales.getCustomer());
         }

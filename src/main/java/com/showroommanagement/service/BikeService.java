@@ -56,9 +56,6 @@ public class BikeService {
         if (bike.getStock() != null) {
             bikeObject.setStock(bike.getStock());
         }
-        if (bike.getShowroom() != null) {
-            bikeObject.setShowroom(bike.getShowroom());
-        }
         if (bike.getSalesman() != null) {
             bikeObject.setSalesman(bike.getSalesman());
         }

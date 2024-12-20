@@ -57,8 +57,8 @@ public class ShowroomService {
     }
 
     public void deleteById(final Integer id) {
-        if (id != null) {
-            throw new IllegalArgumentException("Showroom Id Not found.");
+        if (id == null) {
+            throw new IllegalArgumentException("Showroom ID cannot be null.");
         }
         final Showroom showroom = this.showroomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Showroom Id Not found"));
         this.showroomRepository.deleteById(id);

@@ -17,14 +17,6 @@ public class Sales {
     private double salesPrice;
 
     @ManyToOne()
-    @JoinColumn(name = "showroom_id")
-    private Showroom showroom;
-
-    @ManyToOne()
-    @JoinColumn(name = "salesman_id")
-    private Salesman salesman;
-
-    @ManyToOne()
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
@@ -54,22 +46,6 @@ public class Sales {
 
     public void setSalesPrice(double salesPrice) {
         this.salesPrice = salesPrice;
-    }
-
-    public Showroom getShowroom() {
-        return showroom;
-    }
-
-    public void setShowroom(Showroom showroom) {
-        this.showroom = showroom;
-    }
-
-    public Salesman getSalesman() {
-        return salesman;
-    }
-
-    public void setSalesman(Salesman salesman) {
-        this.salesman = salesman;
     }
 
     public Customer getCustomer() {

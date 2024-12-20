@@ -1,8 +1,11 @@
 package com.showroommanagement.controller;
 
 import com.showroommanagement.dto.CustomerDetail;
+import com.showroommanagement.dto.ResponseDTO;
 import com.showroommanagement.entity.Customer;
 import com.showroommanagement.service.CustomerService;
+import com.showroommanagement.util.Constant;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,25 +14,37 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/customer")
 public class CustomerController {
-    private CustomerService customerService;
+    private final CustomerService customerService;
 
     public CustomerController(final CustomerService customerService) {
         this.customerService = customerService;
     }
 
     @PostMapping("/create")
-    public Customer createCustomer(@RequestBody final Customer customer) {
-        return this.customerService.createCustomer(customer);
+    public ResponseDTO createCustomer(@RequestBody final Customer customer) {
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.CREATE);
+        responseDTO.setStatusCode(HttpStatus.CREATED.value());
+        responseDTO.setData(this.customerService.createCustomer(customer));
+        return responseDTO;
     }
 
     @GetMapping("/retrieve-id/{id}")
-    public Customer retrieveById(@PathVariable("id") Integer id) {
-        return this.customerService.retrieveById(id);
+    public ResponseDTO retrieveById(@PathVariable("id") Integer id) {
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.RETRIEVE);
+        responseDTO.setStatusCode(HttpStatus.OK.value());
+        responseDTO.setData(this.customerService.retrieveById(id));
+        return responseDTO;
     }
 
     @GetMapping("/retrieve-all")
-    public List<Customer> retrieveAll() {
-        return this.customerService.retrieveAll();
+    public ResponseDTO retrieveAll() {
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.RETRIEVE);
+        responseDTO.setStatusCode(HttpStatus.OK.value());
+        responseDTO.setData(this.customerService.retrieveAll());
+        return responseDTO;
     }
     @GetMapping("/retrieve-all-customer")
     public List<CustomerDetail> retrieveAllCustomerDetail() {
@@ -37,12 +52,20 @@ public class CustomerController {
     }
 
     @PutMapping("/update-id/{id}")
-    public Customer updateById(@PathVariable("id") final Integer id,@RequestBody final Customer customer) {
-        return this.customerService.updateById(id, customer);
+    public ResponseDTO updateById(@PathVariable("id") final Integer id,@RequestBody final Customer customer) {
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.UPDATE);
+        responseDTO.setStatusCode(HttpStatus.CREATED.value());
+        responseDTO.setData(this.customerService.updateById(id, customer));
+        return responseDTO;
     }
 
     @DeleteMapping("/delete-id/{id}")
-    public void deleteById(@PathVariable("id") final Integer id) {
+    public ResponseDTO deleteById(@PathVariable("id") final Integer id) {
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.DELETE);
+        responseDTO.setStatusCode(HttpStatus.NO_CONTENT.value());
         this.customerService.deleteById(id);
+        return responseDTO;
     }
 }

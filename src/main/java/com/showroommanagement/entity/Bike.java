@@ -21,10 +21,6 @@ public class Bike {
     private String stock;
 
     @ManyToOne()
-    @JoinColumn(name = "showroom_id")
-    private Showroom showroom;
-
-    @ManyToOne()
     @JoinColumn(name = "salesman_id")
     private Salesman salesman;
 
@@ -76,14 +72,6 @@ public class Bike {
         this.stock = stock;
     }
 
-    public Showroom getShowroom() {
-        return showroom;
-    }
-
-    public void setShowroom(Showroom showroom) {
-        this.showroom = showroom;
-    }
-
     public Salesman getSalesman() {
         return salesman;
     }
@@ -91,4 +79,5 @@ public class Bike {
     public void setSalesman(Salesman salesman) {
         this.salesman = salesman;
     }
+
 }
