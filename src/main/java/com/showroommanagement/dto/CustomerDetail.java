@@ -1,7 +1,7 @@
 package com.showroommanagement.dto;
 
 public class CustomerDetail {
-    private  String name;
+    private String name;
     private String email;
     private String address;
     private String brand;

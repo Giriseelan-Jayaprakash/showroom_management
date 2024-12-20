@@ -46,13 +46,14 @@ public class CustomerController {
         responseDTO.setData(this.customerService.retrieveAll());
         return responseDTO;
     }
+
     @GetMapping("/retrieve-all-customer")
     public List<CustomerDetail> retrieveAllCustomerDetail() {
         return this.customerService.retrieveAllCustomerDetail();
     }
 
     @PutMapping("/update-id/{id}")
-    public ResponseDTO updateById(@PathVariable("id") final Integer id,@RequestBody final Customer customer) {
+    public ResponseDTO updateById(@PathVariable("id") final Integer id, @RequestBody final Customer customer) {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.UPDATE);
         responseDTO.setStatusCode(HttpStatus.CREATED.value());

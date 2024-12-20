@@ -37,11 +37,12 @@ public class CustomerService {
         return this.customerRepository.findAll();
 
     }
+
     public List<CustomerDetail> retrieveAllCustomerDetail() {
-        List<Customer> customer= this.customerRepository.findAll();
-        List<CustomerDetail> customerDetails=new ArrayList<>();
-        for(Customer customer1:customer){
-            CustomerDetail customerDetail=new CustomerDetail();
+        List<Customer> customer = this.customerRepository.findAll();
+        List<CustomerDetail> customerDetails = new ArrayList<>();
+        for (Customer customer1 : customer) {
+            CustomerDetail customerDetail = new CustomerDetail();
             customerDetail.setBrand(customer1.getSalesman().getShowroom().getBrand());
             customerDetail.setCompanyName(customer1.getSalesman().getShowroom().getName());
             customerDetail.setEmail(customer1.getEmail());
