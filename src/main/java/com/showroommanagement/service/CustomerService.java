@@ -77,11 +77,12 @@ public class CustomerService {
         return customerRepository.save(customerObject);
     }
 
-    public void deleteById(final Integer id) {
+    public String deleteById(final Integer id) {
         if (id == null) {
             throw new IllegalArgumentException("Customer not Found");
         }
         final Customer customer = this.customerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Customer not Found"));
         this.customerRepository.deleteById(id);
+        return "Id Deleted";
     }
 }

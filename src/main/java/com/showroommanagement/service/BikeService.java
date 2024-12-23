@@ -62,12 +62,13 @@ public class BikeService {
         return bikeRepository.save(bikeObject);
     }
 
-    public void deleteById(final Integer id) {
+    public String deleteById(final Integer id) {
         if (id == null) {
             throw new IllegalArgumentException("Bike not Found");
         }
         final Bike bike = this.bikeRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Bike not Found"));
         this.bikeRepository.deleteById(id);
+        return "Deleted Successfully";
     }
 }
 

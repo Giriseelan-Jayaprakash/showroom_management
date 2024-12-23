@@ -19,6 +19,9 @@ public class Showroom {
     @Column(name = "contact_number")
     private long contactNumber;
 
+    @ManyToOne()
+    private Salesmanager salesmanager;
+
     public String getName() {
         return name;
     }
@@ -58,4 +61,14 @@ public class Showroom {
     public void setId(Integer id) {
         this.id = id;
     }
+
+    public Salesmanager getSalesmanager() {
+        return salesmanager;
+    }
+
+    public void setSalesmanager(Salesmanager salesmanager) {
+        this.salesmanager = salesmanager;
+    }
+
+
 }

@@ -47,7 +47,7 @@ public class SalesmanController {
     public ResponseDTO updateById(@PathVariable("id") final Integer id, final Salesman salesman) {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.UPDATE);
-        responseDTO.setStatusCode(HttpStatus.CREATED.value());
+        responseDTO.setStatusCode(HttpStatus.OK.value());
         responseDTO.setData(this.salesmanService.updateById(id, salesman));
         return responseDTO;
     }
@@ -56,8 +56,8 @@ public class SalesmanController {
     public ResponseDTO deleteById(@PathVariable("id") final Integer id) {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.DELETE);
-        responseDTO.setStatusCode(HttpStatus.NO_CONTENT.value());
-        this.salesmanService.deleteById(id);
+        responseDTO.setStatusCode(HttpStatus.OK.value());
+        responseDTO.setData(this.salesmanService.deleteById(id));
         return responseDTO;
     }
 }

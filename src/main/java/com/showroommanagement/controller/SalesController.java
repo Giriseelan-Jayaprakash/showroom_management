@@ -1,11 +1,15 @@
 package com.showroommanagement.controller;
 
+import com.showroommanagement.dto.BikeDetail;
 import com.showroommanagement.dto.ResponseDTO;
 import com.showroommanagement.entity.Sales;
 import com.showroommanagement.service.SalesService;
 import com.showroommanagement.util.Constant;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/sales")
@@ -43,11 +47,22 @@ public class SalesController {
         return responseDTO;
     }
 
+    /*@GetMapping("retrieve-byShowroom-BikeName")
+    public List<BikeDetail> retrieveSalesByShowroomAndBikeName(final String showroomName,final String bikeName){
+        return this.salesService.findSalesByShowroomAndBikeName(showroomName,bikeName);
+    }*/
+    @GetMapping("/retrieve-byShowroom-BikeName")
+    public List<BikeDetail> retrieveSalesByShowroomAndBikeName(
+            @RequestParam String showroomName,
+            @RequestParam String bikeName) {
+        return salesService.retrieveSalesByShowroomAndBikeName(showroomName, bikeName);
+    }
+
     @PutMapping("/update-id/{id}")
     public ResponseDTO updateById(@PathVariable("id") Integer id, @RequestBody final Sales sales) {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.UPDATE);
-        responseDTO.setStatusCode(HttpStatus.CREATED.value());
+        responseDTO.setStatusCode(HttpStatus.OK.value());
         responseDTO.setData(this.salesService.updateById(id, sales));
         return responseDTO;
     }
@@ -56,8 +71,8 @@ public class SalesController {
     public ResponseDTO deleteById(@PathVariable("id") Integer id) {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.DELETE);
-        responseDTO.setStatusCode(HttpStatus.NO_CONTENT.value());
-        this.salesService.deleteById(id);
+        responseDTO.setStatusCode(HttpStatus.OK.value());
+        responseDTO.setData(this.salesService.deleteById(id));
         return responseDTO;
     }
 }

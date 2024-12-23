@@ -56,7 +56,7 @@ public class CustomerController {
     public ResponseDTO updateById(@PathVariable("id") final Integer id, @RequestBody final Customer customer) {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.UPDATE);
-        responseDTO.setStatusCode(HttpStatus.CREATED.value());
+        responseDTO.setStatusCode(HttpStatus.OK.value());
         responseDTO.setData(this.customerService.updateById(id, customer));
         return responseDTO;
     }
@@ -65,8 +65,8 @@ public class CustomerController {
     public ResponseDTO deleteById(@PathVariable("id") final Integer id) {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.DELETE);
-        responseDTO.setStatusCode(HttpStatus.NO_CONTENT.value());
-        this.customerService.deleteById(id);
+        responseDTO.setStatusCode(HttpStatus.OK.value());
+        responseDTO.setData(this.customerService.deleteById(id));
         return responseDTO;
     }
 }

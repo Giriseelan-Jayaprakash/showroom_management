@@ -16,9 +16,9 @@ public class Salesmanager {
     @Column(name = "contact_number")
     private long contactNumber;
 
-    @ManyToOne()
+    /*@ManyToOne()
     @JoinColumn(name = "showroom_id")
-    private Showroom showroom;
+    private Showroom showroom;*/
 
     public Integer getId() {
         return id;
@@ -52,11 +52,11 @@ public class Salesmanager {
         this.contactNumber = contactNumber;
     }
 
-    public Showroom getShowroom() {
-        return showroom;
-    }
-
-    public void setShowroom(Showroom showroom) {
-        this.showroom = showroom;
-    }
+//    public Showroom getShowroom() {
+//        return showroom;
+//    }
+//
+//    public void setShowroom(Showroom showroom) {
+//        this.showroom = showroom;
+//    }
 }

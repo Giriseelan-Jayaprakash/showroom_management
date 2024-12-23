@@ -44,11 +44,20 @@ public class ShowroomController {
         return responseDTO;
     }
 
+//    @GetMapping("/retrieve-search")
+//    public ResponseDTO retrieveBySearch(final String search){
+//        final ResponseDTO responseDTO = new ResponseDTO();
+//        responseDTO.setMessage(Constant.RETRIEVE);
+//        responseDTO.setStatusCode(HttpStatus.OK.value());
+//        responseDTO.setData(this.showroomService.retrieveBySearch(search));
+//        return responseDTO;
+//    }
+
     @PutMapping("/update-id/{id}")
     public ResponseDTO updateById(@PathVariable("id") final Integer id, @RequestBody final Showroom showroom) {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.UPDATE);
-        responseDTO.setStatusCode(HttpStatus.CREATED.value());
+        responseDTO.setStatusCode(HttpStatus.OK.value());
         responseDTO.setData(this.showroomService.updateById(showroom, id));
         return responseDTO;
     }
@@ -57,8 +66,8 @@ public class ShowroomController {
     public ResponseDTO deleteById(@PathVariable("id") final Integer id) {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.DELETE);
-        this.showroomService.deleteById(id);
-        responseDTO.setStatusCode(HttpStatus.NO_CONTENT.value());
+        responseDTO.setStatusCode(HttpStatus.OK.value());
+        responseDTO.setData(this.showroomService.deleteById(id));
         return responseDTO;
     }
 //    public void deleteById(@PathVariable("id") final Integer id) {

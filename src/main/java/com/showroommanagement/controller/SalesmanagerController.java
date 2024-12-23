@@ -20,6 +20,7 @@ public class SalesmanagerController {
     public ResponseDTO createSalesmanager(@RequestBody final Salesmanager salesmanager) {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.CREATE);
+        responseDTO.setStatusCode(HttpStatus.CREATED.value());
         responseDTO.setData(this.salesmanagerService.createSalesmanager(salesmanager));
         return responseDTO;
     }
@@ -46,7 +47,7 @@ public class SalesmanagerController {
     public ResponseDTO updateById(@PathVariable("id") Integer id, @RequestBody Salesmanager salesmanager) {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.UPDATE);
-        responseDTO.setStatusCode(HttpStatus.CREATED.value());
+        responseDTO.setStatusCode(HttpStatus.OK.value());
         responseDTO.setData(this.salesmanagerService.updateById(id, salesmanager));
         return responseDTO;
     }
@@ -55,8 +56,8 @@ public class SalesmanagerController {
     public ResponseDTO deleteById(@PathVariable("id") Integer id) {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.DELETE);
-        responseDTO.setStatusCode(HttpStatus.NO_CONTENT.value());
-        this.salesmanagerService.deleteById(id);
+        responseDTO.setStatusCode(HttpStatus.OK.value());
+        responseDTO.setData(this.salesmanagerService.deleteById(id));
         return responseDTO;
     }
 }

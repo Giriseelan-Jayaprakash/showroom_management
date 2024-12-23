@@ -64,11 +64,12 @@ public class SalesmanService {
         }
     }
 
-    public void deleteById(final Integer id) {
+    public String deleteById(final Integer id) {
         if (id == null) {
             throw new IllegalArgumentException("Salesman not Found");
         }
         final Salesman salesman = this.salesmanRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Salesman not Found"));
         this.salesmanRepository.deleteById(id);
+        return "Deleted Successfully";
     }
 }

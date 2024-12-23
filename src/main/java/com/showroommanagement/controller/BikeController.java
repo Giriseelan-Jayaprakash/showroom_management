@@ -47,7 +47,7 @@ public class BikeController {
     public ResponseDTO updateById(@PathVariable("id") final Integer id, @RequestBody Bike bike) {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.UPDATE);
-        responseDTO.setStatusCode(HttpStatus.CREATED.value());
+        responseDTO.setStatusCode(HttpStatus.OK.value());
         responseDTO.setData(this.bikeService.updateById(id, bike));
         return responseDTO;
     }
@@ -56,8 +56,8 @@ public class BikeController {
     public ResponseDTO deleteById(@PathVariable("id") final Integer id) {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.DELETE);
-        responseDTO.setStatusCode(HttpStatus.NO_CONTENT.value());
-        this.bikeService.deleteById(id);
+        responseDTO.setStatusCode(HttpStatus.OK.value());
+        responseDTO.setData(this.bikeService.deleteById(id));
         return responseDTO;
     }
 }

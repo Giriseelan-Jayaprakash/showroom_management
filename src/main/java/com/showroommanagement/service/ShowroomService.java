@@ -1,9 +1,14 @@
 package com.showroommanagement.service;
 
+import com.showroommanagement.dto.BikeDetail;
+import com.showroommanagement.dto.CustomerDetail;
+import com.showroommanagement.entity.Bike;
+import com.showroommanagement.entity.Customer;
 import com.showroommanagement.entity.Showroom;
 import com.showroommanagement.repository.ShowroomRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +40,12 @@ public class ShowroomService {
         return this.showroomRepository.findAll();
     }
 
+
+//    public List <BikeDetail> retrieveBySearch(final String search){
+//        return this.showroomRepository.retrieveBySearch(search);
+//
+//    }
+
     public Showroom updateById(final Showroom showroom, final Integer id) {
         final Optional<Showroom> showroomOptional = this.showroomRepository.findById(id);
         if (showroomOptional.isEmpty()) {
@@ -56,12 +67,13 @@ public class ShowroomService {
         return this.showroomRepository.save(showroomObject);
     }
 
-    public void deleteById(final Integer id) {
+    public String deleteById(final Integer id) {
         if (id == null) {
             throw new IllegalArgumentException("Showroom ID cannot be null.");
         }
         final Showroom showroom = this.showroomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Showroom Id Not found"));
         this.showroomRepository.deleteById(id);
+        return "Deleted Successfully";
     }
 
 }
