@@ -1,15 +1,11 @@
 package com.showroommanagement.service;
 
-import com.showroommanagement.dto.BikeDetail;
-import com.showroommanagement.dto.CustomerDetail;
-import com.showroommanagement.entity.Bike;
-import com.showroommanagement.entity.Customer;
 import com.showroommanagement.entity.Showroom;
 import com.showroommanagement.repository.ShowroomRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -25,15 +21,7 @@ public class ShowroomService {
     }
 
     public Showroom retrieveById(final Integer id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Invalid ID");
-        }
-        Optional<Showroom> showroom = this.showroomRepository.findById(id);
-        if (showroom.isPresent()) {
-            return showroom.get();
-        } else {
-            throw new IllegalArgumentException("Showroom not found for ID");
-        }
+        return this.showroomRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No Showroom found for this id"));
     }
 
     public List<Showroom> retrieveAll() {

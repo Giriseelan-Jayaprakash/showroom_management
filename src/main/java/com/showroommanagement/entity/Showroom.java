@@ -69,6 +69,4 @@ public class Showroom {
     public void setSalesmanager(Salesmanager salesmanager) {
         this.salesmanager = salesmanager;
     }
-
-
 }

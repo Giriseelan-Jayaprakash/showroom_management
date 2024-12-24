@@ -16,9 +16,9 @@ public class Salesmanager {
     @Column(name = "contact_number")
     private long contactNumber;
 
-    /*@ManyToOne()
-    @JoinColumn(name = "showroom_id")
-    private Showroom showroom;*/
+//    @ManyToOne()
+//    @JoinColumn(name = "showroom_id")
+//    private Showroom showroom;
 
     public Integer getId() {
         return id;

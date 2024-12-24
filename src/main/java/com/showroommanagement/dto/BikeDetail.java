@@ -1,7 +1,6 @@
 package com.showroommanagement.dto;
 
 import java.util.Date;
-import java.util.List;
 
 public class BikeDetail {
     private String showroomName;

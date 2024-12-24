@@ -5,7 +5,6 @@ import com.showroommanagement.dto.ResponseDTO;
 import com.showroommanagement.entity.Sales;
 import com.showroommanagement.service.SalesService;
 import com.showroommanagement.util.Constant;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

@@ -37,15 +37,15 @@ public class SalesService {
         return this.salesRepository.findAll();
     }
 
-    public List<BikeDetail> retrieveSalesByShowroomAndBikeName(final String showroomName, final String bikeName){
-        List <Sales> sales = this.salesRepository.retrieveSalesByShowroomAndBikeName(showroomName,bikeName);
+    public List<BikeDetail> retrieveSalesByShowroomAndBikeName(final String showroomName, final String bikeName) {
+        List<Sales> sales = this.salesRepository.retrieveSalesByShowroomAndBikeName(showroomName, bikeName);
         List<BikeDetail> bikeDetailList = new ArrayList<>();
-        for(Sales sales1 : sales){
+        for (Sales sales1 : sales) {
             BikeDetail bikeDetail = new BikeDetail();
             bikeDetail.setShowroomName(sales1.getBike().getSalesman().getShowroom().getName());
             bikeDetail.setShowroomBrand(sales1.getBike().getSalesman().getShowroom().getBrand());
             bikeDetail.setSalesManagerName(sales1.getBike().getSalesman().getShowroom().getSalesmanager().getName());
-           // bikeDetail.setSalesManagerName(sales1.getBike().getSalesman().getShowroom().get);
+            // bikeDetail.setSalesManagerName(sales1.getBike().getSalesman().getShowroom().get);
             bikeDetail.setSalesmanName(sales1.getCustomer().getSalesman().getName());
             bikeDetail.setBikeName(sales1.getBike().getName());
             bikeDetail.setBikePrice(sales1.getBike().getPrice());

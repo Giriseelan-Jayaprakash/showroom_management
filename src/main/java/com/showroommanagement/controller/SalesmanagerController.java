@@ -17,11 +17,11 @@ public class SalesmanagerController {
     }
 
     @PostMapping("/create")
-    public ResponseDTO createSalesmanager(@RequestBody final Salesmanager salesmanager) {
+    public ResponseDTO createSalesManager(@RequestBody final Salesmanager salesmanager) {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.CREATE);
         responseDTO.setStatusCode(HttpStatus.CREATED.value());
-        responseDTO.setData(this.salesmanagerService.createSalesmanager(salesmanager));
+        responseDTO.setData(this.salesmanagerService.createSalesManager(salesmanager));
         return responseDTO;
     }
 

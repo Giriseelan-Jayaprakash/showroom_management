@@ -1,10 +1,8 @@
 package com.showroommanagement.repository;
 
-import com.showroommanagement.dto.BikeDetail;
 import com.showroommanagement.entity.Sales;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,10 +29,10 @@ public interface SalesRepository extends JpaRepository<Sales, Integer> {
             "JOIN s.bike b " +
             "JOIN b.salesman sa " +
             "JOIN sa.showroom sh " +
-            "Join sh.salesmanager smngr "+
+            "Join sh.salesmanager smngr " +
             "JOIN s.customer cs " +
-            "JOIN cs.salesman sman "+
-            "JOIN sman.showroom sroom "+
+            "JOIN cs.salesman sman " +
+            "JOIN sman.showroom sroom " +
             "WHERE sh.name = :showroomName " +
             "AND b.name = :bikeName")
     List<Sales> retrieveSalesByShowroomAndBikeName(String showroomName, String bikeName);

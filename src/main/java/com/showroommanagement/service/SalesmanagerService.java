@@ -15,8 +15,8 @@ public class SalesmanagerService {
         this.salesmanagerRepository = salesmanagerRepository;
     }
 
-    public Salesmanager createSalesmanager(final Salesmanager salesmanager) {
-        return this.salesmanagerRepository.save(salesmanager);
+    public Salesmanager createSalesManager(final Salesmanager salesManager) {
+        return this.salesmanagerRepository.save(salesManager);
     }
 
     public Salesmanager retrieveById(final Integer id) {
@@ -27,7 +27,7 @@ public class SalesmanagerService {
         if (salesmanager.isPresent()) {
             return salesmanager.get();
         } else {
-            throw new IllegalArgumentException("Salesmanager not Found");
+            throw new IllegalArgumentException("SalesManager not Found");
         }
     }
 
@@ -38,7 +38,7 @@ public class SalesmanagerService {
     public Salesmanager updateById(final Integer id, final Salesmanager salesmanager) {
         final Optional<Salesmanager> salesmanagerOptional = this.salesmanagerRepository.findById(id);
         if (salesmanagerOptional.isEmpty()) {
-            throw new IllegalArgumentException("Salesmanager not Found");
+            throw new IllegalArgumentException("SalesManager not Found");
         }
         final Salesmanager salesmanagerObject = salesmanagerOptional.get();
         if (salesmanager.getName() != null) {
@@ -60,7 +60,7 @@ public class SalesmanagerService {
         if (id == null) {
             throw new IllegalArgumentException("Sales Manager cannot be null");
         }
-        final Salesmanager salesmanager = this.salesmanagerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Salesmanager not Found"));
+        final Salesmanager salesmanager = this.salesmanagerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("SalesManager not Found"));
         salesmanagerRepository.deleteById(id);
         return "Deleted Successfully.";
     }
