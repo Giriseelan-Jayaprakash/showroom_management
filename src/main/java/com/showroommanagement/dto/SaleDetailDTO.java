@@ -2,7 +2,7 @@ package com.showroommanagement.dto;
 
 import java.util.Date;
 
-public class BikeDetail {
+public class SaleDetailDTO {
     private String showroomName;
     private String showroomBrand;
     private String bikeName;

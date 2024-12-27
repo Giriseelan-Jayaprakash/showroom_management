@@ -3,8 +3,8 @@ package com.showroommanagement.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "salesmanager")
-public class Salesmanager {
+@Table(name = "sales_manager")
+public class SalesManager {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -15,10 +15,6 @@ public class Salesmanager {
     private String address;
     @Column(name = "contact_number")
     private long contactNumber;
-
-//    @ManyToOne()
-//    @JoinColumn(name = "showroom_id")
-//    private Showroom showroom;
 
     public Integer getId() {
         return id;
@@ -51,12 +47,4 @@ public class Salesmanager {
     public void setContactNumber(long contactNumber) {
         this.contactNumber = contactNumber;
     }
-
-//    public Showroom getShowroom() {
-//        return showroom;
-//    }
-//
-//    public void setShowroom(Showroom showroom) {
-//        this.showroom = showroom;
-//    }
 }

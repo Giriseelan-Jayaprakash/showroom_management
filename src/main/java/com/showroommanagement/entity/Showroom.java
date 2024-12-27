@@ -20,7 +20,8 @@ public class Showroom {
     private long contactNumber;
 
     @ManyToOne()
-    private Salesmanager salesmanager;
+    @JoinColumn(name = "sales_manager_id")
+    private SalesManager salesManager;
 
     public String getName() {
         return name;
@@ -62,11 +63,11 @@ public class Showroom {
         this.id = id;
     }
 
-    public Salesmanager getSalesmanager() {
-        return salesmanager;
+    public SalesManager getSalesManager() {
+        return salesManager;
     }
 
-    public void setSalesmanager(Salesmanager salesmanager) {
-        this.salesmanager = salesmanager;
+    public void setSalesManager(SalesManager salesManager) {
+        this.salesManager = salesManager;
     }
 }

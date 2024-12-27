@@ -13,9 +13,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseDTO> handleBadRequestServiceAlertException(final BadRequestServiceAlertException exception, WebRequest webRequest) {
         ResponseDTO responseDTO = new ResponseDTO();
         exception.printStackTrace();
-        responseDTO.setMessage(Constant.NOT_FOUND);
+        responseDTO.setMessage(exception.getMessage());
         responseDTO.setStatusCode(400);
-        responseDTO.setData(exception.getMessage());
+        responseDTO.setData(Constant.NOT_FOUND);
         return ResponseEntity.ok().body(responseDTO);
     }
 
@@ -23,9 +23,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseDTO> handleSecurityException(Exception exception) {
         ResponseDTO responseDTO = new ResponseDTO();
         exception.printStackTrace();
-        responseDTO.setMessage(Constant.NOT_FOUND);
+        responseDTO.setMessage(exception.getMessage());
         responseDTO.setStatusCode(400);
-        responseDTO.setData(exception.getMessage());
+        responseDTO.setData(Constant.NOT_FOUND);
         return ResponseEntity.ok().body(responseDTO);
     }
 }

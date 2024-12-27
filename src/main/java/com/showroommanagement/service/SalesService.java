@@ -1,69 +1,83 @@
 package com.showroommanagement.service;
 
-import com.showroommanagement.dto.BikeDetail;
+import com.showroommanagement.dto.ResponseDTO;
+import com.showroommanagement.dto.SaleDetailDTO;
 import com.showroommanagement.entity.Sales;
+import com.showroommanagement.exception.BadRequestServiceAlertException;
 import com.showroommanagement.repository.SalesRepository;
+import com.showroommanagement.util.Constant;
+import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SalesService {
     private final SalesRepository salesRepository;
 
-    public SalesService(final SalesRepository salesRepository) {
+    public SalesService(SalesRepository salesRepository) {
         this.salesRepository = salesRepository;
     }
 
-    public Sales createSales(final Sales sales) {
-        return this.salesRepository.save(sales);
+    @Transactional
+    public ResponseDTO createSales(final Sales sales) {
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.CREATE);
+        responseDTO.setStatusCode(HttpStatus.CREATED.value());
+        responseDTO.setData(this.salesRepository.save(sales));
+        return responseDTO;
     }
 
-    public Sales retrieveById(final Integer id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Sales not Found");
-        }
-        final Optional<Sales> sales = this.salesRepository.findById(id);
-        if (sales.isPresent()) {
-            return sales.get();
+    public ResponseDTO retrieveById(final Integer id) {
+        if (this.salesRepository.existsById(id)) {
+            final ResponseDTO responseDTO = new ResponseDTO();
+            responseDTO.setMessage(Constant.RETRIEVE);
+            responseDTO.setStatusCode(HttpStatus.OK.value());
+            responseDTO.setData(this.salesRepository.findById(id));
+            return responseDTO;
         } else {
-            throw new IllegalArgumentException("Sales not Found");
+            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
         }
+
     }
 
-    public List<Sales> retrieveAll() {
-        return this.salesRepository.findAll();
+    public ResponseDTO retrieveAll() {
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.RETRIEVE);
+        responseDTO.setStatusCode(HttpStatus.OK.value());
+        responseDTO.setData(this.salesRepository.findAll());
+        return responseDTO;
     }
 
-    public List<BikeDetail> retrieveSalesByShowroomAndBikeName(final String showroomName, final String bikeName) {
+    public ResponseDTO retrieveSalesByShowroomAndBikeName(final String showroomName, final String bikeName) {
         List<Sales> sales = this.salesRepository.retrieveSalesByShowroomAndBikeName(showroomName, bikeName);
-        List<BikeDetail> bikeDetailList = new ArrayList<>();
+        List<SaleDetailDTO> saleDetailDTOList = new ArrayList<>();
         for (Sales sales1 : sales) {
-            BikeDetail bikeDetail = new BikeDetail();
-            bikeDetail.setShowroomName(sales1.getBike().getSalesman().getShowroom().getName());
-            bikeDetail.setShowroomBrand(sales1.getBike().getSalesman().getShowroom().getBrand());
-            bikeDetail.setSalesManagerName(sales1.getBike().getSalesman().getShowroom().getSalesmanager().getName());
-            // bikeDetail.setSalesManagerName(sales1.getBike().getSalesman().getShowroom().get);
-            bikeDetail.setSalesmanName(sales1.getCustomer().getSalesman().getName());
-            bikeDetail.setBikeName(sales1.getBike().getName());
-            bikeDetail.setBikePrice(sales1.getBike().getPrice());
-            bikeDetail.setCustomerName(sales1.getCustomer().getName());
-            bikeDetail.setCustomerEmail(sales1.getCustomer().getEmail());
-            bikeDetail.setCustomerContactNumber(sales1.getCustomer().getContactNumber());
-            bikeDetail.setSalesDate(sales1.getSalesDate());
-            bikeDetailList.add(bikeDetail);
+            SaleDetailDTO saleDetailDTO = new SaleDetailDTO();
+            saleDetailDTO.setShowroomName(sales1.getBike().getSalesman().getShowroom().getName());
+            saleDetailDTO.setShowroomBrand(sales1.getBike().getSalesman().getShowroom().getBrand());
+            saleDetailDTO.setSalesManagerName(sales1.getBike().getSalesman().getShowroom().getSalesManager().getName());
+            saleDetailDTO.setSalesmanName(sales1.getCustomer().getSalesman().getName());
+            saleDetailDTO.setBikeName(sales1.getBike().getName());
+            saleDetailDTO.setBikePrice(sales1.getBike().getPrice());
+            saleDetailDTO.setCustomerName(sales1.getCustomer().getName());
+            saleDetailDTO.setCustomerEmail(sales1.getCustomer().getEmail());
+            saleDetailDTO.setCustomerContactNumber(sales1.getCustomer().getContactNumber());
+            saleDetailDTO.setSalesDate(sales1.getSalesDate());
+            saleDetailDTOList.add(saleDetailDTO);
         }
-        return bikeDetailList;
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.RETRIEVE);
+        responseDTO.setStatusCode(HttpStatus.OK.value());
+        responseDTO.setData(saleDetailDTOList);
+        return responseDTO;
     }
 
-    public Sales updateById(final Integer id, final Sales sales) {
-        final Optional<Sales> salesOptional = this.salesRepository.findById(id);
-        if (salesOptional.isEmpty()) {
-            throw new IllegalArgumentException("Sales not Found");
-        }
-        final Sales salesObject = salesOptional.get();
+    @Transactional
+    public ResponseDTO updateById(final Integer id, final Sales sales) {
+        final Sales salesObject = this.salesRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
         if (sales.getSalesDate() != null) {
             salesObject.setSalesDate(sales.getSalesDate());
         }
@@ -76,15 +90,26 @@ public class SalesService {
         if (sales.getBike() != null) {
             salesObject.setBike(sales.getBike());
         }
-        return this.salesRepository.save(salesObject);
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.UPDATE);
+        responseDTO.setStatusCode(HttpStatus.OK.value());
+        responseDTO.setData(this.salesRepository.save(salesObject));
+        return responseDTO;
     }
 
-    public String deleteById(final Integer id) {
+    public ResponseDTO deleteById(final Integer id) {
         if (id == null) {
-            throw new IllegalArgumentException("Sales not Found");
+            throw new BadRequestServiceAlertException(Constant.DATA_NULL);
         }
-        final Sales sales = this.salesRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Sales not Found"));
-        this.salesRepository.deleteById(id);
-        return "Deleted Successfully.";
+        if (this.salesRepository.existsById(id)) {
+            this.salesRepository.deleteById(id);
+            final ResponseDTO responseDTO = new ResponseDTO();
+            responseDTO.setMessage(Constant.DELETE);
+            responseDTO.setStatusCode(HttpStatus.OK.value());
+            responseDTO.setData(Constant.REMOVE);
+            return responseDTO;
+        } else {
+            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
+        }
     }
 }

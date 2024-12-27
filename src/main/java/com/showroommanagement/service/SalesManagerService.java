@@ -1,76 +1,67 @@
 package com.showroommanagement.service;
 
 import com.showroommanagement.dto.ResponseDTO;
-import com.showroommanagement.entity.Bike;
+import com.showroommanagement.entity.SalesManager;
 import com.showroommanagement.exception.BadRequestServiceAlertException;
-import com.showroommanagement.repository.BikeRepository;
+import com.showroommanagement.repository.SalesManagerRepository;
 import com.showroommanagement.util.Constant;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BikeService {
-    private final BikeRepository bikeRepository;
+public class SalesManagerService {
+    private final SalesManagerRepository salesManagerRepository;
 
-    public BikeService(BikeRepository bikeRepository) {
-        this.bikeRepository = bikeRepository;
+    public SalesManagerService(SalesManagerRepository salesManagerRepository) {
+        this.salesManagerRepository = salesManagerRepository;
     }
 
     @Transactional
-    public ResponseDTO createBike(final Bike bike) {
+    public ResponseDTO createSalesManager(final SalesManager salesManager) {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.CREATE);
         responseDTO.setStatusCode(HttpStatus.CREATED.value());
-        responseDTO.setData(this.bikeRepository.save(bike));
+        responseDTO.setData(this.salesManagerRepository.save(salesManager));
         return responseDTO;
     }
 
     public ResponseDTO retrieveById(final Integer id) {
-        if (this.bikeRepository.existsById(id)) {
+        if (this.salesManagerRepository.existsById(id)) {
             final ResponseDTO responseDTO = new ResponseDTO();
             responseDTO.setMessage(Constant.RETRIEVE);
             responseDTO.setStatusCode(HttpStatus.OK.value());
-            responseDTO.setData(this.bikeRepository.findById(id));
+            responseDTO.setData(this.salesManagerRepository.findById(id));
             return responseDTO;
         } else {
             throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
         }
     }
 
-    public ResponseDTO retrieveAll() {
+    public ResponseDTO retrieveALl() {
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.RETRIEVE);
         responseDTO.setStatusCode(HttpStatus.OK.value());
-        responseDTO.setData(this.bikeRepository.findAll());
+        responseDTO.setData(this.salesManagerRepository.findAll());
         return responseDTO;
     }
 
     @Transactional
-    public ResponseDTO updateById(final Integer id, final Bike bike) {
-        final Bike bikeObject = this.bikeRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
-        if (bike.getName() != null) {
-            bikeObject.setName(bike.getName());
+    public ResponseDTO updateById(final Integer id, final SalesManager salesManager) {
+        final SalesManager salesManagerObject = this.salesManagerRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
+        if (salesManager.getName() != null) {
+            salesManagerObject.setName(salesManager.getName());
         }
-        if (bike.getCc() != 0) {
-            bikeObject.setCc(bike.getCc());
+        if (salesManager.getAddress() != null) {
+            salesManagerObject.setAddress(salesManager.getAddress());
         }
-        if (bike.getMileage() != 0) {
-            bikeObject.setMileage(bike.getMileage());
-        }
-        if (bike.getPrice() != 0) {
-            bikeObject.setPrice(bike.getPrice());
-        }
-        if (bike.getStock() != null) {
-            bikeObject.setStock(bike.getStock());
-        }
-        if (bike.getSalesman() != null) {
-            bikeObject.setSalesman(bike.getSalesman());
+        if (salesManager.getContactNumber() != 0) {
+            salesManagerObject.setContactNumber(salesManager.getContactNumber());
         }
         final ResponseDTO responseDTO = new ResponseDTO();
         responseDTO.setMessage(Constant.UPDATE);
         responseDTO.setStatusCode(HttpStatus.OK.value());
-        responseDTO.setData(bikeRepository.save(bikeObject));
+        responseDTO.setData(this.salesManagerRepository.save(salesManagerObject));
         return responseDTO;
     }
 
@@ -78,8 +69,8 @@ public class BikeService {
         if (id == null) {
             throw new BadRequestServiceAlertException(Constant.DATA_NULL);
         }
-        if (this.bikeRepository.existsById(id)) {
-            this.bikeRepository.deleteById(id);
+        if (this.salesManagerRepository.existsById(id)) {
+            this.salesManagerRepository.deleteById(id);
             final ResponseDTO responseDTO = new ResponseDTO();
             responseDTO.setMessage(Constant.DELETE);
             responseDTO.setStatusCode(HttpStatus.OK.value());
@@ -88,8 +79,5 @@ public class BikeService {
         } else {
             throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
         }
-
-
     }
 }
-

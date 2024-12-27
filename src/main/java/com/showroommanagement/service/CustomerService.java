@@ -1,64 +1,78 @@
 package com.showroommanagement.service;
 
-import com.showroommanagement.dto.CustomerDetail;
+import com.showroommanagement.dto.CustomerDetailDTO;
+import com.showroommanagement.dto.ResponseDTO;
 import com.showroommanagement.entity.Customer;
+import com.showroommanagement.exception.BadRequestServiceAlertException;
 import com.showroommanagement.repository.CustomerRepository;
+import com.showroommanagement.util.Constant;
+import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
 
-    public CustomerService(final CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
     }
 
-    public Customer createCustomer(final Customer customer) {
-        return this.customerRepository.save(customer);
+    @Transactional
+    public ResponseDTO createCustomer(final Customer customer) {
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.CREATE);
+        responseDTO.setStatusCode(HttpStatus.CREATED.value());
+        responseDTO.setData(this.customerRepository.save(customer));
+        return responseDTO;
     }
 
-    public Customer retrieveById(final Integer id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Customer not Found");
-        }
-        final Optional<Customer> customer = this.customerRepository.findById(id);
-        if (customer.isPresent()) {
-            return customer.get();
+    public ResponseDTO retrieveById(final Integer id) {
+        if (this.customerRepository.existsById(id)) {
+            this.customerRepository.findById(id);
+            final ResponseDTO responseDTO = new ResponseDTO();
+            responseDTO.setMessage(Constant.RETRIEVE);
+            responseDTO.setStatusCode(HttpStatus.OK.value());
+            responseDTO.setData(this.customerRepository.findById(id));
+            return responseDTO;
         } else {
-            throw new IllegalArgumentException("Customer not Found");
+            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
         }
     }
 
-    public List<Customer> retrieveAll() {
-        return this.customerRepository.findAll();
-
+    public ResponseDTO retrieveAll() {
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.RETRIEVE);
+        responseDTO.setStatusCode(HttpStatus.OK.value());
+        responseDTO.setData(this.customerRepository.findAll());
+        return responseDTO;
     }
 
-    public List<CustomerDetail> retrieveAllCustomerDetail() {
+    public ResponseDTO retrieveAllCustomerDetail() {
         List<Customer> customer = this.customerRepository.findAll();
-        List<CustomerDetail> customerDetails = new ArrayList<>();
+        List<CustomerDetailDTO> customerDetailDTOS = new ArrayList<>();
         for (Customer customer1 : customer) {
-            CustomerDetail customerDetail = new CustomerDetail();
-            customerDetail.setBrand(customer1.getSalesman().getShowroom().getBrand());
-            customerDetail.setCompanyName(customer1.getSalesman().getShowroom().getName());
-            customerDetail.setEmail(customer1.getEmail());
-            customerDetail.setAddress(customer1.getAddress());
-            customerDetail.setName(customer1.getName());
-            customerDetails.add(customerDetail);
+            CustomerDetailDTO customerDetailDTO = new CustomerDetailDTO();
+            customerDetailDTO.setBrand(customer1.getSalesman().getShowroom().getBrand());
+            customerDetailDTO.setCompanyName(customer1.getSalesman().getShowroom().getName());
+            customerDetailDTO.setEmail(customer1.getEmail());
+            customerDetailDTO.setAddress(customer1.getAddress());
+            customerDetailDTO.setName(customer1.getName());
+            customerDetailDTOS.add(customerDetailDTO);
         }
-        return customerDetails;
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.RETRIEVE);
+        responseDTO.setStatusCode(HttpStatus.OK.value());
+        responseDTO.setData(customerDetailDTOS);
+        return responseDTO;
     }
 
-    public Customer updateById(final Integer id, final Customer customer) {
-        final Optional<Customer> customerOptional = this.customerRepository.findById(id);
-        if (customerOptional.isEmpty()) {
-            throw new IllegalArgumentException("Customer not Found");
-        }
-        final Customer customerObject = customerOptional.get();
+    @Transactional
+    public ResponseDTO updateById(final Integer id, final Customer customer) {
+        final Customer customerObject = this.customerRepository.findById(id).orElseThrow(() -> new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST));
         if (customer.getName() != null) {
             customerObject.setName(customer.getName());
         }
@@ -74,15 +88,25 @@ public class CustomerService {
         if (customer.getSalesman() != null) {
             customerObject.setSalesman(customer.getSalesman());
         }
-        return customerRepository.save(customerObject);
+        final ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setMessage(Constant.UPDATE);
+        responseDTO.setStatusCode(HttpStatus.OK.value());
+        responseDTO.setData(customerRepository.save(customerObject));
+        return responseDTO;
     }
 
-    public String deleteById(final Integer id) {
+    public ResponseDTO deleteById(final Integer id) {
         if (id == null) {
-            throw new IllegalArgumentException("Customer not Found");
+            throw new BadRequestServiceAlertException(Constant.DATA_NULL);
         }
-        final Customer customer = this.customerRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Customer not Found"));
-        this.customerRepository.deleteById(id);
-        return "Id Deleted";
+        if (this.customerRepository.existsById(id)) {
+            final ResponseDTO responseDTO = new ResponseDTO();
+            responseDTO.setMessage(Constant.DELETE);
+            responseDTO.setStatusCode(HttpStatus.OK.value());
+            responseDTO.setData(Constant.REMOVE);
+            return responseDTO;
+        } else {
+            throw new BadRequestServiceAlertException(Constant.ID_DOES_NOT_EXIST);
+        }
     }
 }
